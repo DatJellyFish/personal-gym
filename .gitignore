@@ -1,0 +1,8 @@
+node_modules/
+backend/data/
+backend/.env
+mobile/.expo/
+mobile/dist/
+*.db
+*.db-wal
+*.db-shm

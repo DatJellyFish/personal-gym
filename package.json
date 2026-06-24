@@ -1,0 +1,10 @@
+{
+  "name": "personal-gym",
+  "private": true,
+  "workspaces": ["backend", "mobile"],
+  "scripts": {
+    "backend": "npm run start --workspace=backend",
+    "backend:dev": "npm run dev --workspace=backend",
+    "mobile": "npm run start --workspace=mobile"
+  }
+}
