@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ForgeFit — Seu diário de treinos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="bg-glow glow-1"></div>
+<div class="bg-glow glow-2"></div>
+
+<header class="hero">
+  <nav class="nav">
+    <div class="brand">
+      <span class="brand-icon">⚡</span>
+      <span>ForgeFit</span>
+    </div>
+    <a class="nav-cta" href="#app">Abrir meu diário</a>
+  </nav>
+
+  <div class="hero-content">
+    <span class="hero-tag">100% local · seus dados ficam no seu navegador</span>
+    <h1>Registre. Evolua. <span class="highlight">Repita.</span></h1>
+    <p class="hero-sub">
+      Um lugar simples e bonito para anotar cada treino, acompanhar sua
+      evolução de cargas e nunca mais perder o fio da meada na academia.
+    </p>
+    <div class="hero-actions">
+      <a href="#app" class="btn btn-primary">Começar agora</a>
+      <a href="#como-funciona" class="btn btn-ghost">Como funciona</a>
+    </div>
+
+    <div class="hero-stats" id="hero-stats">
+      <div class="hstat">
+        <strong id="stat-total">0</strong>
+        <span>treinos registrados</span>
+      </div>
+      <div class="hstat">
+        <strong id="stat-week">0</strong>
+        <span>essa semana</span>
+      </div>
+      <div class="hstat">
+        <strong id="stat-streak">0</strong>
+        <span>dias de sequência</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="como-funciona">
+  <div class="section-inner steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Crie um treino</h3>
+      <p>Dê um nome (ex: "Peito e Tríceps"), escolha a data e adicione os exercícios feitos.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Anote séries e cargas</h3>
+      <p>Para cada exercício, registre séries, repetições e peso usado.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Acompanhe sua evolução</h3>
+      <p>Veja seu histórico completo, sua sequência de dias treinados e volte sempre que quiser.</p>
+    </div>
+  </div>
+</section>
+
+<main class="app" id="app">
+  <div class="app-inner">
+
+    <section class="card form-card">
+      <div class="card-header">
+        <h2>Novo treino</h2>
+        <p>Registre o treino de hoje em poucos segundos.</p>
+      </div>
+
+      <form id="workout-form">
+        <div class="field-row">
+          <div class="field">
+            <label for="w-name">Nome do treino</label>
+            <input id="w-name" type="text" placeholder="Ex: Costas e Bíceps" required />
+          </div>
+          <div class="field field-small">
+            <label for="w-date">Data</label>
+            <input id="w-date" type="date" required />
+          </div>
+        </div>
+
+        <div class="exercises-block">
+          <div class="exercises-header">
+            <label>Exercícios</label>
+            <button type="button" id="add-exercise" class="btn btn-small">+ Exercício</button>
+          </div>
+          <div id="exercise-list" class="exercise-list"></div>
+        </div>
+
+        <div class="field">
+          <label for="w-notes">Notas (opcional)</label>
+          <textarea id="w-notes" rows="2" placeholder="Como se sentiu, recordes pessoais, etc."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">Salvar treino</button>
+      </form>
+    </section>
+
+    <section class="history">
+      <div class="history-header">
+        <h2>Histórico</h2>
+        <input id="search" type="search" placeholder="Buscar por treino ou exercício..." />
+      </div>
+
+      <div id="history-list" class="history-list">
+        <!-- workouts render here -->
+      </div>
+
+      <div id="empty-state" class="empty-state">
+        <span class="empty-icon">🏋️</span>
+        <p>Nenhum treino registrado ainda. Adicione o primeiro acima!</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <p>ForgeFit — seus treinos, salvos localmente no seu navegador.</p>
+</footer>
+
+<template id="exercise-row-template">
+  <div class="exercise-row">
+    <input type="text" class="ex-name" placeholder="Exercício (ex: Supino reto)" required />
+    <input type="number" class="ex-sets" placeholder="Séries" min="0" />
+    <input type="number" class="ex-reps" placeholder="Reps" min="0" />
+    <input type="number" class="ex-weight" placeholder="Kg" min="0" step="0.5" />
+    <button type="button" class="ex-remove" title="Remover exercício">✕</button>
+  </div>
+</template>
+
+<script src="script.js"></script>
+</body>
+</html>
