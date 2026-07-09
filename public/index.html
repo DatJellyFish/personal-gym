@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -24,7 +25,7 @@
   </nav>
 
   <div class="hero-content">
-    <span class="hero-tag">100% local · seus dados ficam no seu navegador</span>
+    <span class="hero-tag">Seus dados salvos com segurança no seu servidor</span>
     <h1>Registre. Evolua. <span class="highlight">Repita.</span></h1>
     <p class="hero-sub">
       Um lugar simples e bonito para anotar cada treino, acompanhar sua
@@ -130,12 +131,42 @@
 </main>
 
 <footer class="footer">
-  <p>ForgeFit — seus treinos, salvos localmente no seu navegador.</p>
+  <p>ForgeFit — seus treinos, salvos com segurança no seu próprio servidor.</p>
 </footer>
+
+<div id="rest-timer" class="rest-timer collapsed">
+  <button type="button" id="timer-toggle" class="timer-toggle" title="Cronômetro de descanso">⏱</button>
+  <div class="timer-panel">
+    <span class="timer-display" id="timer-display">01:30</span>
+    <div class="timer-presets">
+      <button type="button" class="timer-preset" data-seconds="30">30s</button>
+      <button type="button" class="timer-preset" data-seconds="60">60s</button>
+      <button type="button" class="timer-preset" data-seconds="90">90s</button>
+      <button type="button" class="timer-preset" data-seconds="120">120s</button>
+    </div>
+    <div class="timer-controls">
+      <button type="button" id="timer-start" class="btn btn-small">Iniciar</button>
+      <button type="button" id="timer-reset" class="btn btn-small btn-ghost-small">Zerar</button>
+    </div>
+  </div>
+</div>
+
+<div id="chart-modal" class="chart-modal hidden">
+  <div class="chart-modal-inner">
+    <div class="chart-modal-header">
+      <h3 id="chart-modal-title">Evolução</h3>
+      <button type="button" id="chart-modal-close" class="icon-btn" title="Fechar">✕</button>
+    </div>
+    <canvas id="progress-chart" width="480" height="280"></canvas>
+  </div>
+</div>
 
 <template id="exercise-row-template">
   <div class="exercise-row">
-    <input type="text" class="ex-name" placeholder="Exercício (ex: Supino reto)" required />
+    <div class="ex-name-wrap">
+      <input type="text" class="ex-name" placeholder="Exercício (ex: Supino reto)" autocomplete="off" required />
+      <div class="ex-suggestions"></div>
+    </div>
     <input type="number" class="ex-sets" placeholder="Séries" min="0" />
     <input type="number" class="ex-reps" placeholder="Reps" min="0" />
     <input type="number" class="ex-weight" placeholder="Kg" min="0" step="0.5" />
@@ -143,6 +174,6 @@
   </div>
 </template>
 
-<script src="script.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

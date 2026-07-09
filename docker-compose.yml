@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: forgefit
+    restart: unless-stopped
+    ports:
+      - "8081:3000"
+    volumes:
+      - ./data:/app/data
