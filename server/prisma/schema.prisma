@@ -8,43 +8,62 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Workout {
-  id        String     @id @default(uuid())
+model Routine {
+  id        String            @id @default(uuid())
   name      String
-  date      String
-  notes     String     @default("")
-  createdAt DateTime   @default(now())
-  planId    String?
-  plan      WorkoutPlan? @relation(fields: [planId], references: [id], onDelete: SetNull)
-  exercises Exercise[]
+  notes     String            @default("")
+  order     Int               @default(0)
+  createdAt DateTime          @default(now())
+  exercises RoutineExercise[]
+  sessions  WorkoutSession[]
 }
 
-model Exercise {
-  id        String  @id @default(uuid())
-  workoutId String
-  workout   Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+model RoutineExercise {
+  id        String       @id @default(uuid())
+  routineId String
+  routine   Routine      @relation(fields: [routineId], references: [id], onDelete: Cascade)
   name      String
-  sets      Int?
-  reps      Int?
-  weight    Float?
-  order     Int     @default(0)
+  order     Int          @default(0)
+  sets      RoutineSet[]
 }
 
-model WorkoutPlan {
-  id        String         @id @default(uuid())
-  name      String
-  notes     String         @default("")
-  createdAt DateTime       @default(now())
-  exercises PlanExercise[]
-  workouts  Workout[]
+model RoutineSet {
+  id                String          @id @default(uuid())
+  routineExerciseId String
+  routineExercise   RoutineExercise @relation(fields: [routineExerciseId], references: [id], onDelete: Cascade)
+  order             Int
+  targetReps        Int?
+  targetWeight      Float?
 }
 
-model PlanExercise {
-  id         String      @id @default(uuid())
-  planId     String
-  plan       WorkoutPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
-  name       String
-  targetSets Int?
-  targetReps Int?
-  order      Int         @default(0)
+model WorkoutSession {
+  id          String            @id @default(uuid())
+  name        String
+  date        String
+  status      String            @default("active")
+  startedAt   DateTime          @default(now())
+  completedAt DateTime?
+  notes       String            @default("")
+  routineId   String?
+  routine     Routine?          @relation(fields: [routineId], references: [id], onDelete: SetNull)
+  exercises   SessionExercise[]
+}
+
+model SessionExercise {
+  id        String       @id @default(uuid())
+  sessionId String
+  session   WorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  name      String
+  order     Int          @default(0)
+  sets      SessionSet[]
+}
+
+model SessionSet {
+  id         String          @id @default(uuid())
+  exerciseId String
+  exercise   SessionExercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  order      Int
+  reps       Int?
+  weight     Float?
+  completed  Boolean         @default(false)
 }

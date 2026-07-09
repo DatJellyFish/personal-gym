@@ -1,9 +1,9 @@
 import path from 'path';
 import express from 'express';
 import cors from 'cors';
-import { workoutsRouter } from './routes/workouts';
 import { exercisesRouter } from './routes/exercises';
-import { plansRouter } from './routes/plans';
+import { routinesRouter } from './routes/routines';
+import { sessionsRouter } from './routes/sessions';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -12,9 +12,9 @@ const PUBLIC_DIR = process.env.PUBLIC_DIR || path.join(__dirname, '..', '..', 'w
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/workouts', workoutsRouter);
 app.use('/api/exercises', exercisesRouter);
-app.use('/api/plans', plansRouter);
+app.use('/api/routines', routinesRouter);
+app.use('/api/sessions', sessionsRouter);
 
 app.use(express.static(PUBLIC_DIR));
 app.get(/^(?!\/api).*/, (_req, res) => {

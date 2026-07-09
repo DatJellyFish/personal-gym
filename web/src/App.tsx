@@ -1,24 +1,29 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { WorkoutsProvider } from './lib/WorkoutsContext';
+import { AppDataProvider } from './lib/AppDataContext';
+import { RestTimerProvider } from './lib/RestTimerContext';
 import Layout from './components/Layout';
-import Dashboard from './pages/Dashboard';
+import Home from './pages/Home';
+import Routines from './pages/Routines';
 import History from './pages/History';
-import Plans from './pages/Plans';
-import LogWorkout from './pages/LogWorkout';
+import Profile from './pages/Profile';
+import ActiveSession from './pages/ActiveSession';
 
 export default function App() {
   return (
     <BrowserRouter>
-      <WorkoutsProvider>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/registrar" element={<LogWorkout />} />
-            <Route path="/treinos" element={<History />} />
-            <Route path="/montar" element={<Plans />} />
-          </Route>
-        </Routes>
-      </WorkoutsProvider>
+      <AppDataProvider>
+        <RestTimerProvider>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/rotinas" element={<Routines />} />
+              <Route path="/historico" element={<History />} />
+              <Route path="/perfil" element={<Profile />} />
+              <Route path="/sessao/:id" element={<ActiveSession />} />
+            </Route>
+          </Routes>
+        </RestTimerProvider>
+      </AppDataProvider>
     </BrowserRouter>
   );
 }
