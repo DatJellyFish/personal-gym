@@ -12,7 +12,7 @@ workoutsRouter.get('/', async (_req, res) => {
 });
 
 workoutsRouter.post('/', async (req, res) => {
-  const { name, date, notes, exercises } = req.body ?? {};
+  const { name, date, notes, exercises, planId } = req.body ?? {};
 
   if (typeof name !== 'string' || !name.trim()) {
     return res.status(400).json({ error: 'name is required' });
@@ -29,6 +29,7 @@ workoutsRouter.post('/', async (req, res) => {
       name: name.trim(),
       date: date.trim(),
       notes: typeof notes === 'string' ? notes.trim() : '',
+      planId: typeof planId === 'string' && planId ? planId : null,
       exercises: {
         create: exercises
           .filter((ex) => ex && typeof ex.name === 'string' && ex.name.trim())

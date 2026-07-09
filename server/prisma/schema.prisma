@@ -13,6 +13,8 @@ model Workout {
   date      String
   notes     String     @default("")
   createdAt DateTime   @default(now())
+  planId    String?
+  plan      WorkoutPlan? @relation(fields: [planId], references: [id], onDelete: SetNull)
   exercises Exercise[]
 }
 
@@ -25,4 +27,23 @@ model Exercise {
   reps      Int?
   weight    Float?
   order     Int     @default(0)
+}
+
+model WorkoutPlan {
+  id        String         @id @default(uuid())
+  name      String
+  notes     String         @default("")
+  createdAt DateTime       @default(now())
+  exercises PlanExercise[]
+  workouts  Workout[]
+}
+
+model PlanExercise {
+  id         String      @id @default(uuid())
+  planId     String
+  plan       WorkoutPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  name       String
+  targetSets Int?
+  targetReps Int?
+  order      Int         @default(0)
 }
