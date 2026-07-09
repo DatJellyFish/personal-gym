@@ -6,6 +6,7 @@ COPY web/ ./
 RUN npm run build
 
 FROM node:22-alpine AS build-server
+RUN apk add --no-cache openssl
 WORKDIR /app/server
 COPY server/package.json server/package-lock.json ./
 RUN npm ci
@@ -14,6 +15,7 @@ RUN npx prisma generate
 RUN npm run build
 
 FROM node:22-alpine
+RUN apk add --no-cache openssl
 WORKDIR /app/server
 ENV NODE_ENV=production
 COPY --from=build-server /app/server/node_modules ./node_modules
