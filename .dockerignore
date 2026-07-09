@@ -1,0 +1,7 @@
+server/node_modules
+server/dist
+server/data
+server/.env
+web/node_modules
+web/dist
+.git
