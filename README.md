@@ -23,7 +23,7 @@ reutilizáveis, autocomplete de exercícios e cronômetro de descanso.
 docker compose up -d --build
 ```
 
-O app fica disponível em `http://localhost:8081` (ajuste a porta em
+O app fica disponível em `http://localhost:8088` (ajuste a porta em
 `docker-compose.yml` se já estiver em uso). Os dados ficam persistidos em
 `./data/forgefit.db` no host, sobrevivendo a rebuilds e restarts do container.
 
