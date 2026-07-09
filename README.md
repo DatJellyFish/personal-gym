@@ -1,14 +1,16 @@
 # ForgeFit — personal-gym
 
-Diário de treinos com persistência real (SQLite), modelos de treino
-reutilizáveis, autocomplete de exercícios e cronômetro de descanso.
+Diário de treinos inspirado no Hevy: rotinas reutilizáveis, treino ao vivo
+com log de séries individuais (reps/peso/check por série), cronômetro de
+descanso automático e persistência real (SQLite).
 
 ## Páginas
 
-- **Dashboard**: estatísticas gerais e treinos recentes
-- **Registrar Treino**: loga uma sessão, podendo partir de um modelo salvo
-- **Treinos Salvos**: histórico completo, busca e gráfico de evolução de carga
-- **Montar Treino**: cria/edita modelos reutilizáveis de treino
+- **Início**: inicia um treino (em branco ou a partir de uma rotina), estatísticas rápidas e treinos recentes
+- **Rotinas**: cria/edita modelos reutilizáveis, com séries-alvo (reps + peso) por exercício
+- **Sessão ativa** (`/sessao/:id`): tela de treino ao vivo — cada série tem reps, peso e um check de concluída; ao marcar uma série o cronômetro de descanso dispara sozinho
+- **Histórico**: treinos concluídos, busca, e gráfico de evolução de carga por exercício
+- **Perfil**: estatísticas agregadas (sequência, volume total, séries) e recordes pessoais por exercício
 
 ## Stack
 

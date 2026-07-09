@@ -1,14 +1,19 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import RestTimer from './RestTimer';
+import { useAppData } from '../lib/AppDataContext';
 
 const navItems = [
-  { to: '/', label: 'Dashboard', icon: '📊', end: true },
-  { to: '/registrar', label: 'Registrar Treino', icon: '📝' },
-  { to: '/treinos', label: 'Treinos Salvos', icon: '📚' },
-  { to: '/montar', label: 'Montar Treino', icon: '🧩' },
+  { to: '/', label: 'Início', icon: '🏠', end: true },
+  { to: '/rotinas', label: 'Rotinas', icon: '🧩' },
+  { to: '/historico', label: 'Histórico', icon: '📚' },
+  { to: '/perfil', label: 'Perfil', icon: '👤' },
 ];
 
 export default function Layout() {
+  const { activeSession } = useAppData();
+  const location = useLocation();
+  const onActiveSessionPage = location.pathname === `/sessao/${activeSession?.id}`;
+
   return (
     <div className="flex min-h-screen bg-bg text-ink">
       <aside className="fixed inset-y-0 left-0 z-30 flex w-64 flex-col border-r border-card-border bg-card/40 backdrop-blur-xl">
@@ -42,6 +47,15 @@ export default function Layout() {
 
       <main className="ml-64 flex-1 px-8 py-8 md:px-12">
         <div className="mx-auto max-w-5xl">
+          {activeSession && !onActiveSessionPage && (
+            <Link
+              to={`/sessao/${activeSession.id}`}
+              className="mb-6 flex items-center justify-between rounded-xl border border-accent-2/30 bg-accent-2/10 px-5 py-3 text-sm font-medium text-accent-2 transition-colors hover:bg-accent-2/15"
+            >
+              <span>🟢 Treino em andamento: {activeSession.name}</span>
+              <span className="font-semibold">Continuar →</span>
+            </Link>
+          )}
           <Outlet />
         </div>
       </main>

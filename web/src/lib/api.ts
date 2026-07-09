@@ -1,4 +1,11 @@
-import type { Workout, WorkoutPlan, ExerciseSuggestion, ExerciseDraft, PlanExerciseDraft } from './types';
+import type {
+  Routine,
+  WorkoutSession,
+  ExerciseSuggestion,
+  ExerciseDraft,
+  RoutineExerciseDraft,
+  SessionStatus,
+} from './types';
 
 const API = '/api';
 
@@ -14,45 +21,50 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   return res.json();
 }
 
-export function fetchWorkouts(): Promise<Workout[]> {
-  return request('/workouts');
+export function fetchRoutines(): Promise<Routine[]> {
+  return request('/routines');
 }
 
-export function createWorkout(data: {
-  name: string;
-  date: string;
-  notes: string;
-  planId?: string | null;
-  exercises: ExerciseDraft[];
-}): Promise<Workout> {
-  return request('/workouts', { method: 'POST', body: JSON.stringify(data) });
+export function createRoutine(data: { name: string; notes: string; exercises: RoutineExerciseDraft[] }): Promise<Routine> {
+  return request('/routines', { method: 'POST', body: JSON.stringify(data) });
 }
 
-export function deleteWorkout(id: string): Promise<void> {
-  return request(`/workouts/${id}`, { method: 'DELETE' });
-}
-
-export function fetchPlans(): Promise<WorkoutPlan[]> {
-  return request('/plans');
-}
-
-export function createPlan(data: {
-  name: string;
-  notes: string;
-  exercises: PlanExerciseDraft[];
-}): Promise<WorkoutPlan> {
-  return request('/plans', { method: 'POST', body: JSON.stringify(data) });
-}
-
-export function updatePlan(
+export function updateRoutine(
   id: string,
-  data: { name: string; notes: string; exercises: PlanExerciseDraft[] },
-): Promise<WorkoutPlan> {
-  return request(`/plans/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+  data: { name: string; notes: string; exercises: RoutineExerciseDraft[] },
+): Promise<Routine> {
+  return request(`/routines/${id}`, { method: 'PUT', body: JSON.stringify(data) });
 }
 
-export function deletePlan(id: string): Promise<void> {
-  return request(`/plans/${id}`, { method: 'DELETE' });
+export function deleteRoutine(id: string): Promise<void> {
+  return request(`/routines/${id}`, { method: 'DELETE' });
+}
+
+export function fetchSessions(status?: SessionStatus): Promise<WorkoutSession[]> {
+  return request(`/sessions${status ? `?status=${status}` : ''}`);
+}
+
+export function fetchSession(id: string): Promise<WorkoutSession> {
+  return request(`/sessions/${id}`);
+}
+
+export function startSession(data: { name: string; date: string; routineId?: string | null }): Promise<WorkoutSession> {
+  return request('/sessions', { method: 'POST', body: JSON.stringify(data) });
+}
+
+export function updateSession(
+  id: string,
+  data: { name: string; date: string; notes: string; exercises: ExerciseDraft[] },
+): Promise<WorkoutSession> {
+  return request(`/sessions/${id}`, { method: 'PUT', body: JSON.stringify(data) });
+}
+
+export function finishSession(id: string): Promise<WorkoutSession> {
+  return request(`/sessions/${id}/finish`, { method: 'POST' });
+}
+
+export function deleteSession(id: string): Promise<void> {
+  return request(`/sessions/${id}`, { method: 'DELETE' });
 }
 
 export async function searchExercises(term: string): Promise<ExerciseSuggestion[]> {

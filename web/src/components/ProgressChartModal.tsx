@@ -1,25 +1,28 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import type { Workout } from '../lib/types';
+import type { WorkoutSession } from '../lib/types';
 import { formatDate } from '../lib/utils';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 interface Props {
   exerciseName: string | null;
-  workouts: Workout[];
+  sessions: WorkoutSession[];
   onClose: () => void;
 }
 
-export default function ProgressChartModal({ exerciseName, workouts, onClose }: Props) {
+export default function ProgressChartModal({ exerciseName, sessions, onClose }: Props) {
   if (!exerciseName) return null;
 
-  const points = workouts
-    .filter((w) => w.exercises.some((ex) => ex.name.toLowerCase() === exerciseName.toLowerCase() && ex.weight))
-    .map((w) => {
-      const ex = w.exercises.find((e) => e.name.toLowerCase() === exerciseName.toLowerCase() && e.weight)!;
-      return { date: w.date, weight: ex.weight as number };
+  const points = sessions
+    .map((session) => {
+      const weights = session.exercises
+        .filter((ex) => ex.name.toLowerCase() === exerciseName.toLowerCase())
+        .flatMap((ex) => ex.sets.filter((s) => s.completed && s.weight).map((s) => s.weight as number));
+      if (weights.length === 0) return null;
+      return { date: session.date, weight: Math.max(...weights) };
     })
+    .filter((p): p is { date: string; weight: number } => p !== null)
     .sort((a, b) => (a.date > b.date ? 1 : -1));
 
   return (
@@ -48,7 +51,7 @@ export default function ProgressChartModal({ exerciseName, workouts, onClose }: 
               labels: points.map((p) => formatDate(p.date)),
               datasets: [
                 {
-                  label: 'Carga (kg)',
+                  label: 'Carga máxima (kg)',
                   data: points.map((p) => p.weight),
                   borderColor: '#7c5cff',
                   backgroundColor: 'rgba(124, 92, 255, 0.15)',
